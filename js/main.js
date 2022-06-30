@@ -25,27 +25,25 @@ let backgraundOption = true;
 let backgraundIntirval;
 
 // check if there's local storage random backgraund items
-let BackgraundLocalItem =localStorage.getItem('backgraund-option' )
+let BackgraundLocalItem = localStorage.getItem("backgraund-option");
 
- // check if random backgraund local storage is not empty
-if(BackgraundLocalItem !== null){
-   if(BackgraundLocalItem === 'true'){
-    backgraundOption = true ;
-   }else{
-    backgraundOption = false ;
-   }
-   //remove active class from all spans 
-   document.querySelectorAll('.Random-Backgraunds span').forEach(element=>{
-    element.classList.remove('active');
-   })
-   if(BackgraundLocalItem === 'true'){
-    document.querySelector('.yes').classList.add('active')
-
-   }else{
-    document.querySelector('.no').classList.add('active')
-
-   }
+// check if random backgraund local storage is not empty
+if (BackgraundLocalItem !== null) {
+  if (BackgraundLocalItem === "true") {
+    backgraundOption = true;
+  } else {
+    backgraundOption = false;
   }
+  //remove active class from all spans
+  document.querySelectorAll(".Random-Backgraunds span").forEach((element) => {
+    element.classList.remove("active");
+  });
+  if (BackgraundLocalItem === "true") {
+    document.querySelector(".yes").classList.add("active");
+  } else {
+    document.querySelector(".no").classList.add("active");
+  }
+}
 
 //funcation to randomaiz backgraund
 function randomaizBackgraund() {
@@ -97,125 +95,189 @@ randomBackgraundElement.forEach((span) => {
       if (e.target.dataset.backgraund === "yes") {
         backgraundOption = true;
         randomaizBackgraund();
-        localStorage.setItem('backgraund-option' , true);
+        localStorage.setItem("backgraund-option", true);
       } else {
-        
         backgraundOption = false;
         clearInterval(backgraundIntirval);
-        localStorage.setItem('backgraund-option' , false ); 
+        localStorage.setItem("backgraund-option", false);
       }
     });
 
     e.target.classList.add("active");
   });
 });
- 
-//select skills selector 
+//reser button
+document.querySelector(".settings-box .btn-reset").onclick = function(){
+  localStorage.removeItem("color-option")
+  localStorage.removeItem("backgraund-option")
+  localStorage.removeItem("bullets-option");
+  window.location.reload();
+}
+//select skills selector
 let ourSkills = document.querySelector(".skills");
 
+window.onscroll = function () {
+  //skills offset top
 
-window.onscroll = function(){
-
-  //skills offset top 
-
-  let skillsOffsetTop = ourSkills.offsetTop; 
-
+  let skillsOffsetTop = ourSkills.offsetTop;
 
   // skills outer height
-  
+
   let skillsOuterHeight = ourSkills.offsetHeight;
 
-
-  //window height 
+  //window height
   let windowHeight = this.innerHeight;
 
-
-  //window scrol top 
+  //window scrol top
   let windowscroltop = this.pageYOffset;
-  
-  if (windowscroltop > (skillsOffsetTop + skillsOuterHeight - windowHeight)){
-    
-    let allskills = document.querySelectorAll(".skills  .skill-progress span")
-    allskills.forEach(skill =>{
+
+  if (windowscroltop > skillsOffsetTop + skillsOuterHeight - windowHeight) {
+    let allskills = document.querySelectorAll(".skills  .skill-progress span");
+    allskills.forEach((skill) => {
       skill.style.width = skill.dataset.progress;
-    })
-
+    });
   }
-
-}
+};
 //create popup whit the image
- let ouegallery = document.querySelectorAll(" .images-box img");
-  ouegallery.forEach((img)=>{
-    img.addEventListener('click', (e)=>{
-      
-      //cerate overlay element
-     let overlay =  document.createElement('div');
+let ourgallery = document.querySelectorAll(" .images-box img");
+ourgallery.forEach((img) => {
+  img.addEventListener("click", (e) => {
+    //cerate overlay element
+    let overlay = document.createElement("div");
 
-     //add class to overlay
-     overlay.className= "popup-overlay"
+    //add class to overlay
+    overlay.className = "popup-overlay";
 
-     //add overlay to body
+    //add overlay to body
 
-     document.body.appendChild(overlay);
+    document.body.appendChild(overlay);
 
-     //cerate the popup box
-     let popupbox = document.createElement('div');
+    //cerate the popup box
+    let popupbox = document.createElement("div");
 
-     popupbox.className= 'popup-box'
-     if(img.alt !== null){
-
+    popupbox.className = "popup-box";
+    if (img.alt !== null) {
       //cerate heading
-      let imageheading = document.createElement('h3');
-       
+      let imageheading = document.createElement("h3");
+
       //cerate text for heading
       let taxtheadig = document.createTextNode(img.alt);
 
       //appind the text to heading
 
       imageheading.appendChild(taxtheadig);
-       //appind imageheading to popupbox
+      //appind imageheading to popupbox
 
-       popupbox.appendChild(imageheading);
-
+      popupbox.appendChild(imageheading);
     }
 
-     //create the image
-     let popupimg = document.createElement("img");
+    //create the image
+    let popupimg = document.createElement("img");
 
-     //set image source
+    //set image source
 
-     popupimg.src = img.src;
-     //add popupimg to popupbox 
+    popupimg.src = img.src;
+    //add popupimg to popupbox
 
-     popupbox.appendChild(popupimg);
+    popupbox.appendChild(popupimg);
 
-      //add popupbox to body
-     document.body.appendChild(popupbox);
+    //add popupbox to body
+    document.body.appendChild(popupbox);
 
-    //cerate the close span 
+    //cerate the close span
     let closebutton = document.createElement("span");
 
-    //add class to span 
-    closebutton.className = 'close-button'
+    //add class to span
+    closebutton.className = "close-button";
 
     //cerate the close button text
-     let closebuttontext = document.createTextNode("x");
+    let closebuttontext = document.createTextNode("x");
 
-     //add a closebuttontext to closebutton
-     closebutton.appendChild(closebuttontext);
+    //add a closebuttontext to closebutton
+    closebutton.appendChild(closebuttontext);
 
-     //add close button to popupbox
-     popupbox.appendChild(closebutton);
-    })
-  })
-  //close popup 
-  document.addEventListener('click' , (e)=>{
+    //add close button to popupbox
+    popupbox.appendChild(closebutton);
+  });
+});
+//close popup
+document.addEventListener("click", (e) => {
+  if (e.target.className == "close-button") {
+    document.querySelector(".popup-box").remove();
 
-    if(e.target.className == 'close-button'){
+    document.querySelector(".popup-overlay").remove();
+  }
+});
+// select all bullets
+let allbullets = document.querySelectorAll(".nav-bullets .bullet");
+allbullets.forEach((bullet) => {
+  bullet.addEventListener("click", (e) => {
+    document.querySelector(e.target.dataset.section).scrollIntoView({
+      behavior: "smooth",
+    });
+  });
+});
+// Handle Active State
+function handleActive(e) {
+  // Remove Active Class From All Childrens
+  e.target.parentElement.querySelectorAll(".active").forEach((e) => {
+    e.classList.remove("active");
+  });
 
-      document.querySelector('.popup-box').remove();
+  // Add Active Class On Self
+  e.target.classList.add("active");
+}
+// bullets option
+let bulletsSpan = document.querySelectorAll(".bullets-option span");
 
-      document.querySelector('.popup-overlay').remove();
+let bulletsContainer = document.querySelector(".nav-bullets");
 
+let bulletLocalItem = localStorage.getItem("bullets-option");
+ 
+if(bulletLocalItem !==null){
+    bulletsSpan.forEach(span=>{
+      span.classList.remove("active")
+    });
+    if(bulletLocalItem === 'block'){
+      bulletsContainer.style.display = 'block'
+      document.querySelector(".bullets-option .yes").classList.add("active")
+
+    }else{
+      bulletsContainer.style.display = 'none'
+      document.querySelector(".bullets-option .no").classList.add("active")
+    }
+}
+bulletsSpan.forEach(span=>{
+  span.addEventListener("click" , e=>{
+    handleActive(e)
+    if(span.dataset.bullets === "yes"){
+      bulletsContainer.style.display = 'block'
+      localStorage.setItem("bullets-option" , "block")
+
+
+    }else{
+      bulletsContainer.style.display = 'none'
+      localStorage.setItem("bullets-option" , "none")
     }
   })
+})
+//start landing toggle menu
+let btntoggle = document.querySelector(".links-container .icone");
+let links = document.querySelector(".links-container .links");
+btntoggle.onclick = function(e){
+  links.classList.toggle("open");
+  this.classList.toggle("menu-active")
+  e.stopPropagation();
+}
+//click anywhere outside btntoggle and menu
+document.addEventListener("click", (e)=>{
+  if(e.target !== btntoggle && e.target !== links){
+    if(links.classList.contains("open")){
+      links.classList.remove("open")
+      btntoggle.classList.remove("menu-active")
+    }
+  }
+})
+links.onclick = function(e){
+  e.stopPropagation();
+}
